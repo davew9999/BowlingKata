@@ -10,7 +10,7 @@ namespace BowlingKata.Tests
         [Test]
         public void GivenAllStrikes_ScoreIs300()
         {
-            var rolls = new[] { 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', 'X', 'X' };
+            var rolls = new[] { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' };
 
             int score = new BowlingApp().Score(rolls);
 

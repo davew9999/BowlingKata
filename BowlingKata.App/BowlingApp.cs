@@ -8,15 +8,20 @@ public class BowlingApp
     {
         _rolls = rolls;
 
-        var strikeCount = 0;
         var score = 0;
 
         for (var index = 0; index < rolls.Length; index++)
         {
             var roll = rolls[index];
+            
             if (roll == 'X')
             {
-                strikeCount++;
+                if (index < rolls.Length - 2)
+                {
+                    score += 10;
+                    score += NextRollScore(index);
+                    score += NextNextRollScore(index);
+                }
             }
 
             if (index < 18)
@@ -50,11 +55,6 @@ public class BowlingApp
 
         }
 
-        if (strikeCount == 12)
-        {
-            return 300;
-        }
-
         return score;
     }
 
@@ -66,9 +66,44 @@ public class BowlingApp
 
     private int NextRollScore(int index)
     {
-        var nextRoll = _rolls[index + 1];
-        return NumberRolled(nextRoll);
+        if (index > _rolls.Length - 2)
+        {
+            return 0;
+        }
 
+        var nextRoll = _rolls[index + 1];
+
+        if (IsANumberRoll(nextRoll))
+        {
+            return NumberRolled(nextRoll);
+        }
+        else if (nextRoll == 'X')
+        {
+            return 10;
+        }
+
+        return 0;
+    }
+
+    private int NextNextRollScore(int index)
+    {
+        if (index > _rolls.Length - 3)
+        {
+            return 0;
+        }
+
+        var nextRoll = _rolls[index + 2];
+
+        if (IsANumberRoll(nextRoll))
+        {
+            return NumberRolled(nextRoll);
+        }
+        else if (nextRoll == 'X')
+        {
+            return 10;
+        }
+
+        return 0;
     }
 
     private bool IsANumberRoll(char roll)
