@@ -1,8 +1,9 @@
-﻿namespace BowlingKata;
+﻿namespace BowlingKata.App;
 
 public class BowlingApp
 {
     private char[] _rolls;
+    private int _frame = 1;
 
     public int Score(char[] rolls)
     {
@@ -10,12 +11,15 @@ public class BowlingApp
 
         var score = 0;
 
+        var frames = ConvertToFrames();
+
         for (var index = 0; index < rolls.Length; index++)
         {
             var roll = rolls[index];
-            
+
             if (roll == 'X')
             {
+                // If not last frame OR first roll in last frame
                 if (index < rolls.Length - 2)
                 {
                     score += 10;
@@ -24,13 +28,13 @@ public class BowlingApp
                 }
             }
 
+            if (IsANumberRoll(roll))
+            {
+                score += NumberRolled(roll);
+            }
+
             if (index < 18)
             {
-                if (IsANumberRoll(roll))
-                {
-                    score += NumberRolled(roll);
-                }
-
                 if (roll == '/')
                 {
                     score -= LastRollScore(index);
@@ -41,11 +45,6 @@ public class BowlingApp
 
             else
             {
-                if (IsANumberRoll(roll))
-                {
-                    score += NumberRolled(roll);
-                }
-
                 if (roll == '/')
                 {
                     score -= LastRollScore(index);
@@ -57,6 +56,70 @@ public class BowlingApp
 
         return score;
     }
+
+    private List<object> ConvertToFrames()
+    {
+        var frames = new List<object>();
+
+        for (int i = 0; i < _rolls.Length;)
+        {
+            var roll = _rolls[i];
+
+            if (frames.Count < 9)
+            {
+                var currentFrame = new Frame
+                {
+                    FirstRoll = roll
+                };
+
+                if (IsStrike(roll))
+                {
+                    i++;
+                }
+                else
+                {
+                    currentFrame.SecondRoll = GetNextRoll(i);
+                    i += 2;
+                }
+
+                frames.Add(currentFrame);
+            }
+            else
+            {
+                var finalFrame = new FinalFrame
+                {
+                    FirstRoll = roll,
+                    SecondRoll = GetNextRoll(i)
+                };
+
+                if (i + 2 < _rolls.Length)
+                {
+                    finalFrame.ThirdRoll = GetNextNextRoll(i);
+                }
+
+                frames.Add(finalFrame);
+                break;
+            }
+        }
+
+        return frames;
+    }
+
+    private char GetNextNextRoll(int index)
+    {
+        return GetNextRoll(index, 2);
+    }
+
+    private char GetNextRoll(int index, int increment = 1)
+    {
+        return _rolls[index + increment];
+    }
+
+    private bool IsStrike(char roll)
+    {
+        return roll == 'X';
+    }
+
 
     private int LastRollScore(int index)
     {
