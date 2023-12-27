@@ -17,7 +17,7 @@ namespace BowlingKata.Tests
                             'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'
                         };
 
-            var score = new BowlingApp().Score(rolls);
+            var score = new BowlingApp(rolls).Score();
 
             Assert.That(score, Is.EqualTo(300));
         }
@@ -30,7 +30,7 @@ namespace BowlingKata.Tests
                             '9', '-', '9', '-', '9', '-', '9', '-', '9', '-', '9', '-', '9', '-', '9', '-', '9', '-', '9', '-'
                         };
 
-            var score = new BowlingApp().Score(rolls);
+            var score = new BowlingApp(rolls).Score();
 
             Assert.That(score, Is.EqualTo(90));
         }
@@ -43,7 +43,7 @@ namespace BowlingKata.Tests
                             '5', '/', '5', '/', '5', '/', '5', '/', '5', '/', '5', '/', '5', '/', '5', '/', '5', '/', '5', '/', '5'
                         };
 
-            var score = new BowlingApp().Score(rolls);
+            var score = new BowlingApp(rolls).Score();
 
             Assert.That(score, Is.EqualTo(150));
         }
