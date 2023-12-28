@@ -1,4 +1,4 @@
-﻿namespace BowlingKata.App;
+﻿namespace BowlingKata.App.Frames;
 
 public class Frame
 {

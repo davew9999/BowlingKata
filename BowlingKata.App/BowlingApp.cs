@@ -2,13 +2,9 @@
 
 public class BowlingApp(IReadOnlyList<char> rolls)
 {
-    private int _frame = 1;
-
     public int Score()
     {
         var score = 0;
-
-        var frames = ConvertToFrames();
 
         for (var index = 0; index < rolls.Count; index++)
         {
@@ -53,17 +49,17 @@ public class BowlingApp(IReadOnlyList<char> rolls)
         return index >= rolls.Count - 2;
     }
 
-    private char GetNextNextRoll(int index)
+    public char GetNextNextRoll(int index)
     {
         return GetNextRoll(index, 2);
     }
 
-    private char GetNextRoll(int index, int increment = 1)
+    public char GetNextRoll(int index, int increment = 1)
     {
         return rolls[index + increment];
     }
 
-    private static bool StrikeRolled(char roll)
+    public static bool StrikeRolled(char roll)
     {
         return roll == 'X';
     }
@@ -107,53 +103,5 @@ public class BowlingApp(IReadOnlyList<char> rolls)
     private static int NumberRolled(char roll)
     {
         return int.Parse(roll.ToString());
-    }
-
-    private List<object> ConvertToFrames()
-    {
-        var frames = new List<object>();
-
-        for (int i = 0; i < rolls.Count;)
-        {
-            var roll = rolls[i];
-
-            if (frames.Count < 9)
-            {
-                var currentFrame = new Frame
-                {
-                    FirstRoll = roll
-                };
-
-                if (StrikeRolled(roll))
-                {
-                    i++;
-                }
-                else
-                {
-                    currentFrame.SecondRoll = GetNextRoll(i);
-                    i += 2;
-                }
-
-                frames.Add(currentFrame);
-            }
-            else
-            {
-                var finalFrame = new FinalFrame
-                {
-                    FirstRoll = roll,
-                    SecondRoll = GetNextRoll(i)
-                };
-
-                if (i + 2 < rolls.Count)
-                {
-                    finalFrame.ThirdRoll = GetNextNextRoll(i);
-                }
-
-                frames.Add(finalFrame);
-                break;
-            }
-        }
-
-        return frames;
     }
 }
