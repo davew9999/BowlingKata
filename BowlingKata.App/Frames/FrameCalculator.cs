@@ -1,23 +1,14 @@
 ﻿namespace BowlingKata.App.Frames;
 
-public class FrameCalculator()
+public class FrameCalculator(Rolls rolls)
 {
-    private readonly IReadOnlyList<Roll> _rolls;
-    private readonly BowlingApp _bowlingApp;
-
-    public FrameCalculator(IReadOnlyList<Roll> rolls) : this()
-    {
-        _rolls = rolls;
-        _bowlingApp = new BowlingApp(rolls);
-    }
-
     public List<object> ConvertToFrames()
     {
         var frames = new List<object>();
 
-        for (int i = 0; i < _rolls.Count;)
+        for (int i = 0; i < rolls.Count;)
         {
-            var roll = _rolls[i];
+            var roll = rolls.GetRollForIndex(i);
 
             if (frames.Count < 9)
             {
@@ -32,7 +23,7 @@ public class FrameCalculator()
                 }
                 else
                 {
-                    currentFrame.SecondRoll = _bowlingApp.GetNextRoll(i);
+                    currentFrame.SecondRoll = rolls.GetNextRoll(i);
                     i += 2;
                 }
 
@@ -43,12 +34,12 @@ public class FrameCalculator()
                 var finalFrame = new FinalFrame
                 {
                     FirstRoll = roll,
-                    SecondRoll = _bowlingApp.GetNextRoll(i)
+                    SecondRoll = rolls.GetNextRoll(i)
                 };
 
-                if (i + 2 < _rolls.Count)
+                if (i + 2 < rolls.Count)
                 {
-                    finalFrame.ThirdRoll = _bowlingApp.GetNextNextRoll(i);
+                    finalFrame.ThirdRoll = rolls.GetNextNextRoll(i);
                 }
 
                 frames.Add(finalFrame);

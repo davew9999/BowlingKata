@@ -12,11 +12,11 @@ namespace BowlingKata.Tests
         [Test]
         public void GivenAllStrikes_ScoreIs300()
         {
-            var rolls = new[]
+            var rolls = new Rolls(new[]
             {
                 new Roll('X'), new Roll('X'), new Roll('X'), new Roll('X'), new Roll('X'), new Roll('X'), new Roll('X'),
                 new Roll('X'), new Roll('X'), new Roll('X'), new Roll('X'), new Roll('X')
-            };
+            });
 
             var score = new BowlingApp(rolls).Score();
 
@@ -26,12 +26,12 @@ namespace BowlingKata.Tests
         [Test]
         public void Given9AndMissInEveryFrame_ScoreIs90()
         {
-            var rolls = new[]
+            var rolls = new Rolls(new[]
             {
                 new Roll('9'), new Roll('-'), new Roll('9'), new Roll('-'), new Roll('9'), new Roll('-'), new Roll('9'),
                 new Roll('-'), new Roll('9'), new Roll('-'), new Roll('9'), new Roll('-'), new Roll('9'), new Roll('-'),
                 new Roll('9'), new Roll('-'), new Roll('9'), new Roll('-'), new Roll('9'), new Roll('-')
-            };
+            });
 
             var score = new BowlingApp(rolls).Score();
 
@@ -41,12 +41,12 @@ namespace BowlingKata.Tests
         [Test]
         public void Given5AndSpareWithAFinal5_ScoreIs150()
         {
-            var rolls = new[]
+            var rolls = new Rolls(new[]
             {
                 new Roll('5'), new Roll('/'), new Roll('5'), new Roll('/'), new Roll('5'), new Roll('/'), new Roll('5'),
                 new Roll('/'), new Roll('5'), new Roll('/'), new Roll('5'), new Roll('/'), new Roll('5'), new Roll('/'),
                 new Roll('5'), new Roll('/'), new Roll('5'), new Roll('/'), new Roll('5'), new Roll('/'), new Roll('5')
-            };
+            });
 
             var score = new BowlingApp(rolls).Score();
 
