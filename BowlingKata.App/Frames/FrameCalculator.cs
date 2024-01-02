@@ -2,10 +2,10 @@
 
 public class FrameCalculator()
 {
-    private readonly IReadOnlyList<char> _rolls;
+    private readonly IReadOnlyList<Roll> _rolls;
     private readonly BowlingApp _bowlingApp;
 
-    public FrameCalculator(IReadOnlyList<char> rolls) : this()
+    public FrameCalculator(IReadOnlyList<Roll> rolls) : this()
     {
         _rolls = rolls;
         _bowlingApp = new BowlingApp(rolls);
@@ -26,7 +26,7 @@ public class FrameCalculator()
                     FirstRoll = roll
                 };
 
-                if (new Roll(roll).StrikeRolled)
+                if (roll.StrikeRolled)
                 {
                     i++;
                 }

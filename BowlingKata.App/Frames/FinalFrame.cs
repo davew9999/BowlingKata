@@ -2,7 +2,7 @@
 
 public class FinalFrame
 {
-    public char FirstRoll { get; set; }
-    public char SecondRoll { get; set; }
-    public char ThirdRoll { get; set; }
+    public Roll FirstRoll { get; set; }
+    public Roll SecondRoll { get; set; }
+    public Roll ThirdRoll { get; set; }
 }

@@ -1,6 +1,6 @@
 ﻿namespace BowlingKata.App;
 
-public class BowlingApp(IReadOnlyList<char> rolls)
+public class BowlingApp(IReadOnlyList<Roll> rolls)
 {
     public int Score()
     {
@@ -8,7 +8,7 @@ public class BowlingApp(IReadOnlyList<char> rolls)
 
         for (var index = 0; index < rolls.Count; index++)
         {
-            var roll = new Roll(rolls[index]);
+            var roll = rolls[index];
 
             if (roll.IsANumberRoll)
                 score += roll.NumberRolled;
@@ -50,12 +50,12 @@ public class BowlingApp(IReadOnlyList<char> rolls)
         return index >= rolls.Count - 2;
     }
 
-    public char GetNextNextRoll(int index)
+    public Roll GetNextNextRoll(int index)
     {
         return GetNextRoll(index, 2);
     }
 
-    public char GetNextRoll(int index, int increment = 1)
+    public Roll GetNextRoll(int index, int increment = 1)
     {
         return rolls[index + increment];
     }
@@ -63,26 +63,26 @@ public class BowlingApp(IReadOnlyList<char> rolls)
     private int LastRollScore(int index)
     {
         var lastRoll = rolls[index - 1];
-        return new Roll(lastRoll).NumberRolled;
+        return lastRoll.NumberRolled;
     }
 
     private int NextRollScore(int index)
     {
         var nextRoll = GetNextRoll(index);
 
-        if (new Roll(nextRoll).IsANumberRoll)
-            return new Roll(nextRoll).NumberRolled;
+        if (nextRoll.IsANumberRoll)
+            return nextRoll.NumberRolled;
 
-        return new Roll(nextRoll).StrikeRolled ? 10 : 0;
+        return nextRoll.StrikeRolled ? 10 : 0;
     }
 
     private int NextNextRollScore(int index)
     {
         var nextNextRoll = GetNextNextRoll(index);
 
-        if (new Roll(nextNextRoll).IsANumberRoll)
-            return new Roll(nextNextRoll).NumberRolled;
+        if (nextNextRoll.IsANumberRoll)
+            return nextNextRoll.NumberRolled;
 
-        return new Roll(nextNextRoll).StrikeRolled ? 10 : 0;
+        return nextNextRoll.StrikeRolled ? 10 : 0;
     }
 }

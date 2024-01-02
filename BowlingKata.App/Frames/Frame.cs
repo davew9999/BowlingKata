@@ -2,6 +2,6 @@
 
 public class Frame
 {
-    public char FirstRoll { get; set; }
-    public char SecondRoll { get; set; }
+    public Roll FirstRoll { get; set; }
+    public Roll SecondRoll { get; set; }
 }
