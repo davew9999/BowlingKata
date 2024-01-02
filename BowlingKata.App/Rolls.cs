@@ -10,13 +10,13 @@ public class Rolls(IReadOnlyList<Roll> rolls)
 
         for (var index = 0; index < rolls.Count; index++)
         {
-            var roll = GetRollForIndex(index);
+            var currentRoll = GetRollForIndex(index);
             var lastRoll = GetLastRoll(index);
             var nextRoll = GetNextRoll(index);
             var nextNextRoll = GetNextNextRoll(index);
             var aLastFrameBonusRoll = ALastFrameBonusRoll(index);
 
-            score += roll.TotalScore(lastRoll, nextRoll, nextNextRoll, aLastFrameBonusRoll);
+            score += currentRoll.TotalScore(lastRoll, nextRoll, nextNextRoll, aLastFrameBonusRoll);
         }
 
         return score;
@@ -25,7 +25,7 @@ public class Rolls(IReadOnlyList<Roll> rolls)
     public Roll GetRollForIndex(int index)
     {
         // Better here instead of `new Roll('0')` to instead use the Null Object Pattern
-        return index < rolls.Count && index >= 0 ? rolls[index] : new Roll('0');
+        return index < rolls.Count && index >= 0 ? rolls[index] : new Roll('-');
     }
 
     public Roll GetNextRoll(int index)
