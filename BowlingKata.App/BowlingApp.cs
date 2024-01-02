@@ -8,15 +8,15 @@ public class BowlingApp(IReadOnlyList<char> rolls)
 
         for (var index = 0; index < rolls.Count; index++)
         {
-            var roll = rolls[index];
+            var roll = new Roll(rolls[index]);
 
-            if (IsANumberRoll(roll))
-                score += NumberRolled(roll);
+            if (roll.IsANumberRoll)
+                score += roll.NumberRolled;
 
-            else if (StrikeRolled(roll))
+            else if (roll.StrikeRolled)
                 score += StrikeScore(index);
 
-            else if (SpareRolled(roll))
+            else if (roll.SpareRolled)
                 score += SpareScore(index);
         }
 
@@ -38,6 +38,7 @@ public class BowlingApp(IReadOnlyList<char> rolls)
     {
         var score = 0;
         if (ALastFrameBonusRoll(index)) return score;
+
         score += 10;
         score += NextRollScore(index);
         score += NextNextRollScore(index);
@@ -59,49 +60,29 @@ public class BowlingApp(IReadOnlyList<char> rolls)
         return rolls[index + increment];
     }
 
-    public static bool StrikeRolled(char roll)
-    {
-        return roll == 'X';
-    }
-
-    private static bool SpareRolled(char roll)
-    {
-        return roll == '/';
-    }
-
     private int LastRollScore(int index)
     {
         var lastRoll = rolls[index - 1];
-        return NumberRolled(lastRoll);
+        return new Roll(lastRoll).NumberRolled;
     }
 
     private int NextRollScore(int index)
     {
         var nextRoll = GetNextRoll(index);
 
-        if (IsANumberRoll(nextRoll))
-            return NumberRolled(nextRoll);
+        if (new Roll(nextRoll).IsANumberRoll)
+            return new Roll(nextRoll).NumberRolled;
 
-        return StrikeRolled(nextRoll) ? 10 : 0;
+        return new Roll(nextRoll).StrikeRolled ? 10 : 0;
     }
 
     private int NextNextRollScore(int index)
     {
         var nextNextRoll = GetNextNextRoll(index);
 
-        if (IsANumberRoll(nextNextRoll))
-            return NumberRolled(nextNextRoll);
+        if (new Roll(nextNextRoll).IsANumberRoll)
+            return new Roll(nextNextRoll).NumberRolled;
 
-        return StrikeRolled(nextNextRoll) ? 10 : 0;
-    }
-
-    private static bool IsANumberRoll(char roll)
-    {
-        return int.TryParse(roll.ToString(), out _);
-    }
-
-    private static int NumberRolled(char roll)
-    {
-        return int.Parse(roll.ToString());
+        return new Roll(nextNextRoll).StrikeRolled ? 10 : 0;
     }
 }

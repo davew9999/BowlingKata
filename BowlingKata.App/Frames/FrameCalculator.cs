@@ -26,7 +26,7 @@ public class FrameCalculator()
                     FirstRoll = roll
                 };
 
-                if (BowlingApp.StrikeRolled(roll))
+                if (new Roll(roll).StrikeRolled)
                 {
                     i++;
                 }
