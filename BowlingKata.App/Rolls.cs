@@ -11,15 +11,12 @@ public class Rolls(IReadOnlyList<Roll> rolls)
         for (var index = 0; index < rolls.Count; index++)
         {
             var roll = GetRollForIndex(index);
+            var lastRoll = GetLastRoll(index);
+            var nextRoll = GetNextRoll(index);
+            var nextNextRoll = GetNextNextRoll(index);
+            var aLastFrameBonusRoll = ALastFrameBonusRoll(index);
 
-            if (roll.IsANumberRoll)
-                score += roll.NumberRolled;
-
-            else if (roll.StrikeRolled)
-                score += StrikeScore(index);
-
-            else if (roll.SpareRolled)
-                score += SpareScore(index);
+            score += roll.TotalScore(lastRoll, nextRoll, nextNextRoll, aLastFrameBonusRoll);
         }
 
         return score;
@@ -27,61 +24,27 @@ public class Rolls(IReadOnlyList<Roll> rolls)
 
     public Roll GetRollForIndex(int index)
     {
-        return rolls[index];
+        // Better here instead of `new Roll('0')` to instead use the Null Object Pattern
+        return index < rolls.Count && index >= 0 ? rolls[index] : new Roll('0');
     }
 
-    public Roll GetNextRoll(int index, int increment = 1)
+    public Roll GetNextRoll(int index)
     {
-        return rolls[index + increment];
+        return GetRollForIndex(index + 1);
     }
 
     public Roll GetNextNextRoll(int index)
     {
-        return GetNextRoll(index, 2);
+        return GetRollForIndex(index + 2);
     }
 
-    private int SpareScore(int index)
+    private Roll GetLastRoll(int index)
     {
-        var score = 0;
-        score -= LastRollScore(index);
-        score += 10;
-
-        if (!ALastFrameBonusRoll(index))
-            score += NextRollScore(index);
-        return score;
-    }
-
-    private int StrikeScore(int index)
-    {
-        var score = 0;
-        if (ALastFrameBonusRoll(index)) return score;
-
-        score += 10;
-        score += NextRollScore(index);
-        score += NextNextRollScore(index);
-        return score;
-    }
-
-    private int LastRollScore(int index)
-    {
-        var lastRoll = GetRollForIndex(index - 1);
-        return lastRoll.NumberRolled;
+        return GetRollForIndex(index - 1);
     }
 
     private bool ALastFrameBonusRoll(int index)
     {
         return index >= rolls.Count - 2;
-    }
-
-    private int NextRollScore(int index)
-    {
-        var nextRoll = GetNextRoll(index);
-        return nextRoll.Score();
-    }
-
-    private int NextNextRollScore(int index)
-    {
-        var nextNextRoll = GetNextNextRoll(index);
-        return nextNextRoll.Score();
     }
 }
