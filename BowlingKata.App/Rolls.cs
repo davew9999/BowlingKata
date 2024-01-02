@@ -76,20 +76,12 @@ public class Rolls(IReadOnlyList<Roll> rolls)
     private int NextRollScore(int index)
     {
         var nextRoll = GetNextRoll(index);
-
-        if (nextRoll.IsANumberRoll)
-            return nextRoll.NumberRolled;
-
-        return nextRoll.StrikeRolled ? 10 : 0;
+        return nextRoll.Score();
     }
 
     private int NextNextRollScore(int index)
     {
         var nextNextRoll = GetNextNextRoll(index);
-
-        if (nextNextRoll.IsANumberRoll)
-            return nextNextRoll.NumberRolled;
-
-        return nextNextRoll.StrikeRolled ? 10 : 0;
+        return nextNextRoll.Score();
     }
 }

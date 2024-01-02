@@ -9,4 +9,12 @@ public class Roll(char roll)
     public bool StrikeRolled => roll == 'X';
 
     public bool SpareRolled => roll == '/';
+
+    public int Score()
+    {
+        if (IsANumberRoll)
+            return NumberRolled;
+
+        return StrikeRolled ? 10 : 0;
+    }
 }
